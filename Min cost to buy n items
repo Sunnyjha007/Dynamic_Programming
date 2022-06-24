@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+/*int solve(int n,int a,int b,vector<int>& dp){
+    if(n<=0)return 0;
+    if(n==1)return a;
+    if(dp[n]!=-1)return dp[n];
+    int x = a+ solve(n-1,a,b,dp);
+    int y = INT_MAX;
+    if(n%2==0){
+         y = b+ solve((n)/2,a,b,dp);
+    }
+    
+    return dp[n] = min(x,y);
+    
+}
+int minCostToBuyN1(int n, int a, int b)
+{
+    // Write your code here
+    vector<int> dp(n+1,-1);
+    return solve(n,a,b,dp);
+}*/
+
+//Bottom-up
+int minCostToBuyN(int n, int a, int b)
+{
+    // Write your code here
+    vector<int> dp(n+1,0);
+    dp[1] = a;
+    for(int i=2;i<=n;i++){
+        int x = a + dp[i-1];
+        int y = INT_MAX;
+        if(i%2==0){
+           y = b + dp[i/2]; 
+        } dp[i] =min(x,y);
+    }
+    return dp[n];
+}
