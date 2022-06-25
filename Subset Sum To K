@@ -1,0 +1,46 @@
+//Recursive 
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // Write your code here.
+    if(n==0&&k!=0)return false;
+    if(n==0||k==0)return true;
+    if(arr[n-1]<=k){
+        return subsetSumToK(n-1,k-arr[n-1],arr)||subsetSumToK(n-1,k,arr);
+    }else{
+        return subsetSumToK(n-1,k,arr);
+    }
+}
+//Dp- Memo
+/*
+bool solve(int n,int k,vector<int>& arr,vector<vector<int>>& dp){
+    // Write your code here.
+    if(n==0&&k!=0)return false;
+    if(n==0||k==0)return true;
+    if(dp[n][k]!=-1)return dp[n][k];
+    if(arr[n-1]<=k){
+        return dp[n][k] =  solve(n-1,k-arr[n-1],arr,dp)||solve(n-1,k,arr,dp);
+    }else{
+        return dp[n][k] =  solve(n-1,k,arr,dp);
+    }
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    vector<vector<int>> dp(n+1,vector<int>(k+1,-1));
+    return solve(n,k,arr,dp);
+}
+*/
+//Dp - Bottom up
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    vector<vector<int>> dp(n+1,vector<int>(k+1,0));
+    for(int i=0;i<=n;i++){
+        dp[i][0] = 1;
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=k;j++){
+            if(arr[i-1]<=j){
+                dp[i][j] = dp[i-1][j-arr[i-1]]||dp[i-1][j];
+            }else{
+                dp[i][j] = dp[i-1][j];
+            }
+        }
+    }
+    return dp[n][k];
+}
