@@ -1,0 +1,32 @@
+//Leetcode-1547
+//Recusive
+int solve(vector<int>& cuts,int start,int end,int si,int ei){
+        if(si>ei)return 0;
+        int ans=INT_MAX;
+        for(int i=si;i<=ei;i++){
+            ans = min(ans,(end-start)+solve(cuts,start,cuts[i],si,i-1)+solve(cuts,cuts[i],end,i+1,ei));
+        }
+        return ans;
+    }
+    int minCost(int n, vector<int>& cuts) {
+        int w = cuts.size();
+        sort(cuts.begin(),cuts.end());
+        return solve(cuts,0,n,0,w-1);
+}
+
+//Dp - top down
+ int solve(vector<int>& cuts,int start,int end,int si,int ei,vector<vector<int>>& dp){
+        if(si>ei)return 0;
+        if(dp[si][ei]!=-1)return dp[si][ei];
+        int ans=INT_MAX;
+        for(int i=si;i<=ei;i++){
+            ans = min(ans,(end-start)+solve(cuts,start,cuts[i],si,i-1,dp)+solve(cuts,cuts[i],end,i+1,ei,dp));
+        }
+        return dp[si][ei] = ans;
+    }
+    int minCost(int n, vector<int>& cuts) {
+        int w = cuts.size();
+        vector<vector<int>> dp(101,vector<int>(101,-1));
+        sort(cuts.begin(),cuts.end());
+        return solve(cuts,0,n,0,w-1,dp);
+    }
