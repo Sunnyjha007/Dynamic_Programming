@@ -1,5 +1,24 @@
 //Leetcode  - Coin Change 2 (518)
 //Unbounded Knapsack pattern
+//Dp-top down
+int solve(int amount, vector<int>& coins,vector<vector<int>>& dp,int n){
+        if(n==0&&amount!=0)return 0;
+        if(n==0||amount==0)return 1;
+        if(dp[n][amount]!=-1)return dp[n][amount];
+        if(coins[n-1]<=amount){
+             dp[n][amount] = solve(amount-coins[n-1],coins,dp,n)+solve(amount,coins,dp,n-1);
+        }else{
+             dp[n][amount] = solve(amount,coins,dp,n-1);
+        }
+        return dp[n][amount];
+        
+}
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        vector<vector<int>> dp(n+1,vector<int>(amount+1,-1));
+        return solve(amount,coins,dp,n);
+}
+    
 //DP-Bottom up
 int change(int amount, vector<int>& coins) {
         int n = coins.size();
