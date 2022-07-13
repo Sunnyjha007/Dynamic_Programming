@@ -1,4 +1,5 @@
 //leetcode-241
+//mcm variation
 unordered_map<string,vector<int>> dp;
     vector<int> solve(string &s,int i,int j){
         if(i>j)return {};
